@@ -1,0 +1,38 @@
+name: Scraper Biblioteca
+
+# Cuándo se ejecutará
+on:
+  schedule:
+    - cron: '0 10 */2 * *' # Cada 2 días a las 10:00 AM (Hora UTC)
+  workflow_dispatch: # Permite ejecutarlo manualmente con un botón
+
+permissions:
+  contents: write # Permiso para guardar el archivo de texto en el repo
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar librerías necesarias
+        run: pip install cloudscraper beautifulsoup4 requests
+
+      - name: Ejecutar el script
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scraper_biblioteca.py
+
+      - name: Guardar la memoria del estado
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add estado_anterior.txt
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualizar estado del libro" && git push)
