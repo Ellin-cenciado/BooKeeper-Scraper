@@ -31,6 +31,7 @@ def verificar_estado_libro():
         'premium': 'true',  # Fuerza a usar IPs residenciales indetectables
         'country_code': 'ar' # Fuerza a usar IPs de Argentina
     }
+
     try:
             print(">>> Entrando al bloque try...", flush=True)
             print(">>> Intentando enviar ping a Telegram...", flush=True)
@@ -43,7 +44,6 @@ def verificar_estado_libro():
             respuesta = requests.get('https://api.scraperapi.com/', params=parametros)
             respuesta.raise_for_status()
 
-    try:
         # Hacemos la petición a la API, pasándole la URL destino
         respuesta = requests.get('https://api.scraperapi.com/', params=parametros)
         respuesta.raise_for_status()
