@@ -25,7 +25,6 @@ def verificar_estado_libro():
     }
 
     try:
-        enviar_mensaje_telegram("ping")
         # Hacemos la petición a la API, pasándole la URL destino
         respuesta = requests.get('https://api.scraperapi.com/', params=parametros)
         respuesta.raise_for_status()
