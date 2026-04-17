@@ -34,5 +34,11 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add estado_anterior.txt
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualizar estado del libro" && git push)
+          
+          # Verificamos si el archivo existe antes de intentar agregarlo
+          if [ -f estado_anterior.txt ]; then
+            git add estado_anterior.txt
+            git diff --quiet && git diff --staged --quiet || (git commit -m "Actualizar estado del libro" && git push)
+          else
+            echo "No se encontró estado_anterior.txt. Probablemente el script de Python no lo generó."
+          fi
