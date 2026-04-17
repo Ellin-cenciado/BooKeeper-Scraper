@@ -10,7 +10,15 @@ SCRAPER_API_KEY = os.getenv("SCRAPER_API_KEY")
 def enviar_mensaje_telegram(mensaje):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     data = {"chat_id": TELEGRAM_CHAT_ID, "text": mensaje}
-    requests.post(url, data=data)
+    try:
+        respuesta = requests.post(url, data=data)
+        respuesta.raise_for_status() # Lanza un error si el status no es 200 OK
+        print(f"Ping enviado a Telegram exitosamente: {respuesta.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"🚨 Error al enviar el mensaje de Telegram: {e}")
+        # Esto nos mostrará el motivo exacto del rechazo de Telegram
+        if respuesta is not None:
+            print(f"Detalle de Telegram: {respuesta.text}")
 
 def verificar_estado_libro():
     url_destino = "http://0873.bepe.ar/cgi-bin/koha/opac-detail.pl?biblionumber=101337"
