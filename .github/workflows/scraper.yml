@@ -29,7 +29,7 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
-        run: python scraper_biblioteca.py
+        run: python -u scraper_biblioteca.py
 
       - name: Guardar la memoria del estado
         run: |
