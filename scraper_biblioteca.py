@@ -19,7 +19,9 @@ def verificar_estado_libro():
     # Configuramos la petición para que pase por la red de proxies de ScraperAPI
     parametros = {
         'api_key': SCRAPER_API_KEY,
-        'url': url_destino
+        'url': url_destino,
+        'premium': 'true',  # Fuerza a usar IPs residenciales indetectables
+        'country_code': 'ar' # Fuerza a usar IPs de Argentina
     }
 
     try:
